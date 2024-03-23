@@ -1,0 +1,67 @@
+version: '3.5'
+
+services:
+
+  techstore-auth:
+    image: mongo:latest
+    container_name: techstore-auth
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "mongodb"
+      MONGO_INITDB_ROOT_PASSWORD: "mongodb"
+      MONGO_INITDB_DATABASE: "techstore-auth"
+    volumes:
+      - techstore-auth-data:/data/db
+      - techstore-auth-config:/data/configdb
+    ports:
+      - "27017:27017"
+
+  techstore-carrinho:
+    image: postgres:latest
+    container_name: techstore-carrinho
+    environment:
+      POSTGRES_DB: "techstore-carrinho"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    volumes:
+      - techstore-carrinho:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  techstore-itens:
+    image: mongo:latest
+    container_name: techstore-itens
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "mongodb"
+      MONGO_INITDB_ROOT_PASSWORD: "mongodb"
+      MONGO_INITDB_DATABASE: "techstore-itens"
+    volumes:
+      - techstore-itens-data:/data/db
+      - techstore-itens-config:/data/configdb
+    ports:
+      - "27018:27017"
+
+  techstore-pagamento:
+    image: mongo:latest
+    container_name: techstore-pagamento
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "mongodb"
+      MONGO_INITDB_ROOT_PASSWORD: "mongodb"
+      MONGO_INITDB_DATABASE: "techstore-pagamento"
+    volumes:
+      - techstore-pagamento-data:/data/db
+      - techstore-pagamento-config:/data/configdb
+    ports:
+      - "27019:27017"
+
+volumes:
+  techstore-auth-data:
+  techstore-auth-config:
+  techstore-carrinho:
+  techstore-itens-data:
+  techstore-itens-config:
+  techstore-pagamento-data:
+  techstore-pagamento-config:
