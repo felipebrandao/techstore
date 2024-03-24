@@ -1,12 +1,11 @@
 package com.fiap.techchallenge.techstorepagamento.service;
 
-import com.fiap.techchallenge.techstorepagamento.model.Pedido;
+import com.fiap.techchallenge.techstorepagamento.dto.CarrinhoDTO;
 
-import java.math.BigDecimal;
+import java.util.UUID;
 
 public interface PagamentoService {
 
-    BigDecimal simularPagamento(Pedido pedido);
-    String processarPagamento(Pedido pedido);
-
+    CarrinhoDTO simularPagamento(CarrinhoDTO carrinhoDTO);
+    void processarPagamento(UUID idPedido, CarrinhoDTO carrinhoDTO);
 }

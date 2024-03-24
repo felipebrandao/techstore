@@ -1,10 +1,9 @@
-package com.fiap.techchallenge.techstorecarrinho.config;
+package com.fiap.techchallenge.techstorepagamento.config;
 
-import com.fiap.techchallenge.techstorecarrinho.dto.ErroDeFormularioDTO;
-import com.fiap.techchallenge.techstorecarrinho.dto.ErrorDTO;
-import com.fiap.techchallenge.techstorecarrinho.exception.CarrinhoException;
-import com.fiap.techchallenge.techstorecarrinho.exception.CarrinhoNaoEncontradoException;
-import com.fiap.techchallenge.techstorecarrinho.exception.UsuarioSemPermissaoException;
+import com.fiap.techchallenge.techstorepagamento.dto.ErroDeFormularioDTO;
+import com.fiap.techchallenge.techstorepagamento.dto.ErrorDTO;
+import com.fiap.techchallenge.techstorepagamento.exception.PagamentoException;
+import com.fiap.techchallenge.techstorepagamento.exception.PagamentoJaEfetuadoException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -28,8 +27,9 @@ import static org.springframework.core.Ordered.HIGHEST_PRECEDENCE;
 @Slf4j
 public class HandlerConfig {
 
-    @ExceptionHandler(CarrinhoException.class)
-    public ResponseEntity<ErrorDTO> handleTechChallengeException(CarrinhoException ex) {
+
+    @ExceptionHandler(PagamentoException.class)
+    public ResponseEntity<ErrorDTO> handleTechChallengeException(PagamentoException ex) {
         log.error("Erro na requisição, erro: ", ex);
         ErrorDTO error = new ErrorDTO(Instant.now(), HttpStatus.BAD_REQUEST.value(), ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
@@ -58,18 +58,11 @@ public class HandlerConfig {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 
-    @ExceptionHandler(UsuarioSemPermissaoException.class)
-    public ResponseEntity<ErrorDTO> handleTechChallengeException(UsuarioSemPermissaoException ex) {
+    @ExceptionHandler(PagamentoJaEfetuadoException.class)
+    public ResponseEntity<ErrorDTO> handleTechChallengeException(PagamentoJaEfetuadoException ex) {
         log.error("Erro na requisição, erro: ", ex);
-        ErrorDTO error = new ErrorDTO(Instant.now(), HttpStatus.UNAUTHORIZED .value(), ex.getMessage());
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+        ErrorDTO error = new ErrorDTO(Instant.now(), HttpStatus.BAD_REQUEST .value(), ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
-    @ExceptionHandler(CarrinhoNaoEncontradoException.class)
-    public ResponseEntity<ErrorDTO> handleTechChallengeException(CarrinhoNaoEncontradoException ex) {
-        log.error("Erro na requisição, erro: ", ex);
-        ErrorDTO error = new ErrorDTO(Instant.now(), HttpStatus.NOT_FOUND.value(), ex.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
-    }
 }
-

@@ -54,6 +54,18 @@ public class CarrinhoController {
         return ResponseEntity.ok(carrinho);
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<Carrinho> obterCarrinhoPorID(@PathVariable UUID id) {
+        Carrinho carrinho = carrinhoService.obterCarrinhoPorId(id);
+        return ResponseEntity.ok(carrinho);
+    }
+
+    @PutMapping("/pagamento/{id}")
+    public ResponseEntity<Boolean> pagamentoCarrinhoPorId(@PathVariable UUID id) {
+        Carrinho carrinho = carrinhoService.pagamentoCarrinhoPorId(id);
+        return ResponseEntity.ok(true);
+    }
+
     private void verificarPermissao(String role) {
         if (!"CLIENTE".equals(role)) {
             throw new UsuarioSemPermissaoException("Usuário sem permissão no módulo de Carrinho");

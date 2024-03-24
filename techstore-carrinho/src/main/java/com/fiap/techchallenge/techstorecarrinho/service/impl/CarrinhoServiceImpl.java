@@ -1,5 +1,7 @@
 package com.fiap.techchallenge.techstorecarrinho.service.impl;
 
+import com.fiap.techchallenge.techstorecarrinho.enums.StatusCarrinhoEnum;
+import com.fiap.techchallenge.techstorecarrinho.exception.CarrinhoNaoEncontradoException;
 import com.fiap.techchallenge.techstorecarrinho.feign.dto.ItemDTO;
 import com.fiap.techchallenge.techstorecarrinho.model.Carrinho;
 import com.fiap.techchallenge.techstorecarrinho.model.ItemCarrinho;
@@ -61,13 +63,31 @@ public class CarrinhoServiceImpl implements CarrinhoService {
 
     @Override
     public Carrinho obterCarrinho(String usuarioLogado) {
-        Carrinho carrinho = carrinhoRepository.findByUsername(usuarioLogado);
+        Carrinho carrinho = carrinhoRepository.findByUsernameAndStatus(usuarioLogado, StatusCarrinhoEnum.ABERTO);
         if(carrinho == null){
             carrinho = new Carrinho();
             carrinho.setId(UUID.randomUUID());
             carrinho.setUsername(usuarioLogado);
+            carrinho.setStatus(StatusCarrinhoEnum.ABERTO);
             carrinho = carrinhoRepository.save(carrinho);
         }
+        return carrinho;
+    }
+
+    @Override
+    public Carrinho obterCarrinhoPorId(UUID id) {
+        return carrinhoRepository.findById(id)
+                .orElseThrow(() -> new CarrinhoNaoEncontradoException("Carrinho com ID " + id + " não encontrado."));
+    }
+
+    @Override
+    public Carrinho pagamentoCarrinhoPorId(UUID id) {
+        Carrinho carrinho = carrinhoRepository.findById(id)
+                .orElseThrow(() -> new CarrinhoNaoEncontradoException("Carrinho com ID " + id + " não encontrado."));
+
+        carrinho.setStatus(StatusCarrinhoEnum.PAGO);
+        carrinho = carrinhoRepository.save(carrinho);
+
         return carrinho;
     }
 

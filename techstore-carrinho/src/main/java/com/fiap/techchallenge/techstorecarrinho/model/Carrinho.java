@@ -1,5 +1,6 @@
 package com.fiap.techchallenge.techstorecarrinho.model;
 
+import com.fiap.techchallenge.techstorecarrinho.enums.StatusCarrinhoEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,6 +23,10 @@ public class Carrinho {
 
     @Column(name = "username")
     private String username;
+
+    @Column(name = "status")
+    @Enumerated()
+    private StatusCarrinhoEnum status;
 
     @OneToMany(mappedBy = "carrinho", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<ItemCarrinho> itens = new ArrayList<>();

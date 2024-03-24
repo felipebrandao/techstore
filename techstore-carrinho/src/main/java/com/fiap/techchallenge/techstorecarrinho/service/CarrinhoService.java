@@ -12,4 +12,7 @@ public interface CarrinhoService {
     void removerItemCarrinho(UUID idItem, String username);
     Carrinho obterCarrinho(String username);
 
+    Carrinho obterCarrinhoPorId(UUID id);
+
+    Carrinho pagamentoCarrinhoPorId(UUID id);
 }

@@ -1,4 +1,11 @@
 package com.fiap.techchallenge.techstorepagamento.repository;
 
-public interface PagamentoRepository {
+import com.fiap.techchallenge.techstorepagamento.model.Pagamento;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.UUID;
+
+@Repository
+public interface PagamentoRepository extends MongoRepository<Pagamento, UUID> {
 }
