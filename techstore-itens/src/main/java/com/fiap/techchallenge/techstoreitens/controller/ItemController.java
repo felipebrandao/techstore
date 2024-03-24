@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -47,6 +48,12 @@ public class ItemController {
         verificarPermissao(request.getHeader("role"));
         itemService.excluirItem(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/lista")
+    public ResponseEntity<List<Item>> carregarListaDeItens() {
+        List<Item> listaDeItens = itemService.carregarListaDeItens();
+        return new ResponseEntity<>(listaDeItens, HttpStatus.OK);
     }
 
     private void verificarPermissao(String role) {

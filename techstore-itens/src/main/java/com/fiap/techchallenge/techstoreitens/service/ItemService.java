@@ -2,6 +2,7 @@ package com.fiap.techchallenge.techstoreitens.service;
 
 import com.fiap.techchallenge.techstoreitens.model.Item;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface ItemService {
@@ -11,4 +12,5 @@ public interface ItemService {
     Item atualizarItem(UUID id, Item item);
     void excluirItem(UUID id);
 
+    List<Item> carregarListaDeItens();
 }

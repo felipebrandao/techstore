@@ -7,6 +7,7 @@ import com.fiap.techchallenge.techstoreitens.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -56,5 +57,10 @@ public class ItemServiceImpl implements ItemService {
                 () -> {
                     throw new ItemNaoEncontradoException("Item com ID " + id + " não encontrada.");
                 });
+    }
+
+    @Override
+    public List<Item> carregarListaDeItens() {
+        return itemRepository.findAll();
     }
 }
