@@ -4,7 +4,7 @@ Este projeto é um sistema de e-commerce desenvolvido como parte do desafio Tech
 
 ## Requisitos Técnicos
 - Arquitetura de Microsserviços ⚙️
-- Banco de Dados (PostgreSQL) 💾
+- Banco de Dados (PostgreSQL, MongoDB) 💾
 - Docker 🐳
 - Git e Github 🐙
 - Java 17 ☕️
@@ -13,6 +13,7 @@ Este projeto é um sistema de e-commerce desenvolvido como parte do desafio Tech
 - MapStruct 🗺️
 - SLF4J 📝
 - Spring Boot 🚀
+- Spring Cloud ☁️
 - Spring Data JPA 🔄
 - Spring Security 🔒
 
