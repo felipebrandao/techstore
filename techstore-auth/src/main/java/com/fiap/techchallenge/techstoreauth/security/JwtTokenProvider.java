@@ -5,6 +5,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import java.util.function.Function;
 
 import static io.jsonwebtoken.SignatureAlgorithm.HS256;
 
+@Component
 public class JwtTokenProvider {
     @Value("${jwt.secret}")
     private String secretKey;

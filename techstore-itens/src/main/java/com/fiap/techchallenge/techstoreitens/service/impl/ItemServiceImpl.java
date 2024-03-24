@@ -35,12 +35,26 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Item atualizarItem(UUID id, Item item) {
-        // Implementação para atualizar um item existente
-        return null;
+        itemRepository.findById(id)
+                .ifPresentOrElse(
+                        itemSalvo -> {
+                            itemSalvo.setDescricao(item.getDescricao());
+                            itemSalvo.setPreco(item.getPreco());
+                            itemRepository.save(itemSalvo);
+                        },
+                        () -> {
+                            throw new ItemNaoEncontradoException("Item com ID " + id + " não encontrada.");
+                        }
+                );
+        return item;
     }
 
     @Override
     public void excluirItem(UUID id) {
-        itemRepository.deleteById(id);
+        itemRepository.findById(id).ifPresentOrElse(
+                item -> itemRepository.delete(item),
+                () -> {
+                    throw new ItemNaoEncontradoException("Item com ID " + id + " não encontrada.");
+                });
     }
 }

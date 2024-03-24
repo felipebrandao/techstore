@@ -1,7 +1,9 @@
 package com.fiap.techchallenge.techstoreitens.controller;
 
+import com.fiap.techchallenge.techstoreitens.exception.UsuarioSemPermissaoException;
 import com.fiap.techchallenge.techstoreitens.model.Item;
 import com.fiap.techchallenge.techstoreitens.service.ItemService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,21 +29,30 @@ public class ItemController {
     }
 
     @PostMapping
-    public ResponseEntity<Item> criarItem(@RequestBody Item item) {
+    public ResponseEntity<Item> criarItem(@RequestBody Item item, HttpServletRequest request) {
+        verificarPermissao(request.getHeader("role"));
         Item itemCriado = itemService.criarItem(item);
         return new ResponseEntity<>(itemCriado, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Item> atualizarItem(@PathVariable Long id, @RequestBody Item item) {
-        // Lógica para atualizar um item existente
-        return null;
+    public ResponseEntity<Item> atualizarItem(@PathVariable UUID id, @RequestBody Item item, HttpServletRequest request) {
+        verificarPermissao(request.getHeader("role"));
+        Item itemAtualizado = itemService.atualizarItem(id, item);
+        return new ResponseEntity<>(itemAtualizado, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluirItem(@PathVariable UUID id) {
+    public ResponseEntity<Void> excluirItem(@PathVariable UUID id, HttpServletRequest request) {
+        verificarPermissao(request.getHeader("role"));
         itemService.excluirItem(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    private void verificarPermissao(String role) {
+        if (!"ADMINISTRADOR".equals(role)) {
+            throw new UsuarioSemPermissaoException("Usuário sem permissão no módulo de item");
+        }
     }
 
 }
