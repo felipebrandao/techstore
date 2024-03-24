@@ -11,7 +11,5 @@ import java.util.Map;
 public interface AuthClient {
 
     @GetMapping("/api/auth/validate-token")
-
     UserTech validateToken(@RequestHeader Map<String, String> headerMap);
-    //UserTech validateToken(@RequestHeader("Authorization") String token);
 }

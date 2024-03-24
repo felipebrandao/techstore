@@ -13,6 +13,14 @@ public class GatewayConfig {
     @Value("${techstore-auth.url}")
     private String techstoreAuthUrl;
 
+    @Value("${techstore-carrinho.url}")
+    private String techstoreCarrinhoUrl;
+
+    @Value("${techstore-itens.url}")
+    private String techstoreItensUrl;
+
+    @Value("${techstore-pagamento.url}")
+    private String techstorePagamentoUrl;
     private final AuthenticationFilter filter;
 
     public GatewayConfig(AuthenticationFilter filter) {
@@ -22,12 +30,19 @@ public class GatewayConfig {
     @Bean
     public RouteLocator routes(RouteLocatorBuilder builder) {
         return builder.routes()
+                .route(r -> r.path("/api/carrinho/**")
+                        .filters(f -> f.filter(filter))
+                        .uri(techstoreCarrinhoUrl))
+
                 .route(r -> r.path("/api/itens/**")
                         .filters(f -> f.filter(filter))
-                        .uri("http://localhost:8083"))
+                        .uri(techstoreItensUrl))
+
+                .route(r -> r.path("/api/pagamentos/**")
+                        .filters(f -> f.filter(filter))
+                        .uri(techstorePagamentoUrl))
 
                 .route(r -> r.path("/api/auth/**")
-                        .filters(f -> f.filter(filter))
                         .uri(techstoreAuthUrl))
                 .build();
     }

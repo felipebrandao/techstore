@@ -1,5 +1,6 @@
 package com.fiap.techchallenge.techstorecarrinho.service;
 
+import com.fiap.techchallenge.techstorecarrinho.feign.dto.ItemDTO;
 import com.fiap.techchallenge.techstorecarrinho.model.Carrinho;
 import com.fiap.techchallenge.techstorecarrinho.model.ItemCarrinho;
 
@@ -7,9 +8,8 @@ import java.util.UUID;
 
 public interface CarrinhoService {
 
-    void adicionarItemCarrinho(ItemCarrinho itemCarrinho);
-    void removerItemCarrinho(UUID idItem);
-    Carrinho obterCarrinho();
-    void atualizarCarrinho(Carrinho carrinho);
+    Carrinho adicionarItemCarrinho(ItemCarrinho itemCarrinho, String username, ItemDTO itemDTO);
+    void removerItemCarrinho(UUID idItem, String username);
+    Carrinho obterCarrinho(String username);
 
 }

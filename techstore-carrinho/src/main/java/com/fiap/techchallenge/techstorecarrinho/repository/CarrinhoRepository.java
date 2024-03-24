@@ -8,4 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface CarrinhoRepository extends JpaRepository<Carrinho, UUID> {
+    Carrinho findByUsername(String usuarioLogado);
 }
