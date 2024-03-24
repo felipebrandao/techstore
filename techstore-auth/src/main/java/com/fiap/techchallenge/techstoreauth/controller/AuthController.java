@@ -1,6 +1,10 @@
 package com.fiap.techchallenge.techstoreauth.controller;
 
+import com.fiap.techchallenge.techstoreauth.dto.request.LoginRequest;
+import com.fiap.techchallenge.techstoreauth.dto.response.AuthResponse;
+import com.fiap.techchallenge.techstoreauth.model.User;
 import com.fiap.techchallenge.techstoreauth.service.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,13 +22,15 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
-        // Lógica para registrar um novo usuário
+        User registeredUser = userService.registerUser(user);
+        return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
-        // Lógica para autenticar um usuário
+        String token = userService.authenticateUser(loginRequest.getUsername(), loginRequest.getPassword());
+
+        return ResponseEntity.ok(new AuthResponse(token));
     }
-}
 
 }

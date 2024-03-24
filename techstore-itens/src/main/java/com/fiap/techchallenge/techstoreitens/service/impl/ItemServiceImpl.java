@@ -28,6 +28,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Item criarItem(Item item) {
+        item.setId(UUID.randomUUID());
         Item itemCriado = itemRepository.save(item);
         return itemCriado;
     }
